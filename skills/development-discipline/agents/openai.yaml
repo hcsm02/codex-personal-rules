@@ -1,0 +1,4 @@
+interface:
+  display_name: "Development Discipline"
+  short_description: "Disciplined, verifiable engineering habits."
+  default_prompt: "Use this skill to handle software development work with explicit assumptions, scoped changes, and concrete verification."
