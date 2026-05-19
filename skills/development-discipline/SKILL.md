@@ -25,6 +25,33 @@ Use these rules as the default engineering posture for non-trivial development w
 - Clean up only what your change made unused. Mention unrelated cleanup opportunities instead of doing them silently.
 - For trivial one-line tasks, keep the process lightweight while preserving precision.
 
+## Global AI Development Rules
+
+Apply these rules across repositories unless more specific user or repository instructions conflict.
+
+### Recency-First Principle
+
+- For information that may change over time, verify the latest authoritative source before answering or acting. This includes versions, market data, policies, technical capabilities, dependencies, databases, BI tools, AI models, plugins, and APIs.
+- Stable facts, immutable domain knowledge, mathematics, and physical principles can be used directly when no current verification is needed.
+- Prefer current verification because accuracy, safety, and maintainability are more valuable than the small cost of checking.
+
+### No Fabricated Data Principle
+
+- Do not use invented, fabricated, or assumed data as a substitute for real information when executing tasks or presenting results.
+- If example data is necessary for a demo, UI mock, code output, or logic explanation, label it clearly as example or fake data.
+- Base analysis, decisions, statistics, displays, and demos on real data whenever possible, and state the data source or limitation.
+
+### AI Programming Solution Principle
+
+- For all code or solution generation tasks, first perform a two-option judgment:
+  - Standard runnable solution: the direct, runnable, or immediately executable approach.
+  - Optimized or superior solution: a better approach in performance, structure, logic, conciseness, or long-term maintainability.
+- When the two options are materially different, clearly distinguish "standard solution" and "optimized solution", and briefly explain the optimized solution's pros and cons.
+- When the best approach and the standard approach are effectively the same, or splitting them would add noise, merge them into one execution plan and explicitly state why they are merged.
+- Avoid providing only conventional safe answers when a better option exists. Also avoid adding unnecessary abstractions, dependencies, refactors, or behavioral risk merely to look optimized.
+- Before executing or outputting, obey project constraints: input/output contracts, dependency boundaries, data scope, configuration-first rules, testing requirements, and safety limits.
+- For tasks already in execution mode, compare the standard and optimized approaches first, then execute the option that best fits the repository constraints, risk, and maintainability. Summarize the tradeoff when useful.
+
 ## Common LLM Failure Modes
 
 Actively guard against these patterns:
@@ -44,6 +71,17 @@ Actively guard against these patterns:
 4. Edit only the necessary files.
 5. Verify with the most relevant available checks.
 6. Report what changed, what was verified, and any residual risk.
+
+## Pre-Release Review and Documentation
+
+Before each project version push:
+
+- Conduct a complete review of the code, including scope of changes, logic correctness, dependencies, and potential risks.
+- Update all relevant documentation, including feature descriptions, user manuals, API documentation, and database specifications.
+- Ensure documentation is consistent with the code so team members and future maintainers can understand it.
+- Update test results or example data when applicable.
+
+Apply this principle across development scenarios to ensure quality, maintainability, and traceability before release.
 
 ## Pushback
 
