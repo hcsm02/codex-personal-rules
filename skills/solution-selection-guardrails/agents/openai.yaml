@@ -1,0 +1,4 @@
+interface:
+  display_name: "Solution Selection Guardrails"
+  short_description: "Choose LLM, code, config, database, or UI as the right mechanism before editing."
+  default_prompt: "Use this skill before implementation to classify the problem type, select the main mechanism, and avoid keyword-patch fixes."

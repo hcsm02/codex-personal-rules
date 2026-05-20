@@ -7,8 +7,12 @@ Do not sync the whole `~/.codex` directory. Sync only the skills you intentional
 ## Repository Layout
 
 ```text
+AGENTS.md
 skills/
   development-discipline/
+    SKILL.md
+    agents/openai.yaml
+  solution-selection-guardrails/
     SKILL.md
     agents/openai.yaml
 ```
@@ -28,6 +32,16 @@ Make sure the Codex skills directory exists:
 New-Item -ItemType Directory -Force "$env:USERPROFILE\.codex\skills"
 ```
 
+Install the global `AGENTS.md` from this repository. On Windows, use a hardlink
+when the repository and `.codex` live on the same drive:
+
+```powershell
+Remove-Item "$env:USERPROFILE\.codex\AGENTS.md" -Force -ErrorAction SilentlyContinue
+New-Item -ItemType HardLink `
+  -Path "$env:USERPROFILE\.codex\AGENTS.md" `
+  -Target "$env:USERPROFILE\codex-personal-rules\AGENTS.md"
+```
+
 If a local skill directory already exists, back it up:
 
 ```powershell
@@ -42,6 +56,10 @@ Create a junction so Codex reads the Git-backed copy:
 New-Item -ItemType Junction `
   -Path "$env:USERPROFILE\.codex\skills\development-discipline" `
   -Target "$env:USERPROFILE\codex-personal-rules\skills\development-discipline"
+
+New-Item -ItemType Junction `
+  -Path "$env:USERPROFILE\.codex\skills\solution-selection-guardrails" `
+  -Target "$env:USERPROFILE\codex-personal-rules\skills\solution-selection-guardrails"
 ```
 
 Verify:
@@ -51,6 +69,9 @@ Get-Item "$env:USERPROFILE\.codex\skills\development-discipline" |
   Select-Object FullName, LinkType, Target
 
 Get-Content "$env:USERPROFILE\.codex\skills\development-discipline\SKILL.md" -Encoding UTF8 |
+  Select-Object -First 8
+
+Get-Content "$env:USERPROFILE\.codex\skills\solution-selection-guardrails\SKILL.md" -Encoding UTF8 |
   Select-Object -First 8
 ```
 
@@ -67,7 +88,7 @@ Commit and push:
 ```powershell
 cd "$env:USERPROFILE\codex-personal-rules"
 git status
-git add skills README.md
+git add AGENTS.md skills README.md
 git commit -m "update global codex skills"
 git push
 ```
@@ -80,6 +101,9 @@ git pull
 ```
 
 Because `.codex\skills\development-discipline` is a junction, Codex will read the updated files after `git pull`.
+
+The same applies to `.codex\skills\solution-selection-guardrails`.
+Because `.codex\AGENTS.md` is a hardlink, it will also reflect committed edits to `AGENTS.md`.
 
 ## Adding Another Global Skill
 
