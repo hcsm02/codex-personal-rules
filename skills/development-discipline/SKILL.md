@@ -52,6 +52,16 @@ Apply these rules across repositories unless more specific user or repository in
 - Before executing or outputting, obey project constraints: input/output contracts, dependency boundaries, data scope, configuration-first rules, testing requirements, and safety limits.
 - For tasks already in execution mode, compare the standard and optimized approaches first, then execute the option that best fits the repository constraints, risk, and maintainability. Summarize the tradeoff when useful.
 
+### Capability-Category Design Principle
+
+- Design AI-assisted systems by capability category, not by enumerating known scenarios.
+- Before adding rules, ask what kind of capability the problem belongs to:
+  - LLMs are better for semantic judgment, intent understanding, relationship judgment, ambiguity resolution, natural-language classification, and deciding whether a new input is related to prior context.
+  - Deterministic code is better for execution, state mutation, field constraints, permissions, validation, arithmetic, reducers, SQL/API calls, and safety boundaries.
+- Do not solve semantic judgment problems by repeatedly adding scenario-specific keyword patches. If a new case appears, classify the capability type first; if it is semantic or relational, prefer an LLM provider/judge/classifier with a stable structured contract.
+- When a task contains both semantic judgment and deterministic execution, let the LLM judge or classify, then let code validate, constrain, execute, and persist the result.
+- Keep LLM outputs behind schemas, enums, whitelists, reducers, and debug metadata. The LLM should not directly generate unsafe executable conditions, SQL, permissions, or irreversible state changes.
+
 ## Common LLM Failure Modes
 
 Actively guard against these patterns:
