@@ -1,0 +1,4 @@
+interface:
+  display_name: "Taste Skill"
+  short_description: "Anti-slop frontend design constraints for landing pages, portfolios, and redesigns."
+  default_prompt: "Use this skill when building or redesigning a marketing site, landing page, or portfolio and the goal is stronger layout, typography, spacing, and motion."

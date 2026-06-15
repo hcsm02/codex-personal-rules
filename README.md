@@ -8,11 +8,17 @@ Do not sync the whole `~/.codex` directory. Sync only the skills you intentional
 
 ```text
 AGENTS.md
+scripts/
+  install-sync-task.ps1
+  sync-codex-personal-rules.ps1
 skills/
   development-discipline/
     SKILL.md
     agents/openai.yaml
   solution-selection-guardrails/
+    SKILL.md
+    agents/openai.yaml
+  taste-skill/
     SKILL.md
     agents/openai.yaml
 ```
@@ -60,6 +66,10 @@ New-Item -ItemType Junction `
 New-Item -ItemType Junction `
   -Path "$env:USERPROFILE\.codex\skills\solution-selection-guardrails" `
   -Target "$env:USERPROFILE\codex-personal-rules\skills\solution-selection-guardrails"
+
+New-Item -ItemType Junction `
+  -Path "$env:USERPROFILE\.codex\skills\taste-skill" `
+  -Target "$env:USERPROFILE\codex-personal-rules\skills\taste-skill"
 ```
 
 Verify:
@@ -72,6 +82,9 @@ Get-Content "$env:USERPROFILE\.codex\skills\development-discipline\SKILL.md" -En
   Select-Object -First 8
 
 Get-Content "$env:USERPROFILE\.codex\skills\solution-selection-guardrails\SKILL.md" -Encoding UTF8 |
+  Select-Object -First 8
+
+Get-Content "$env:USERPROFILE\.codex\skills\taste-skill\SKILL.md" -Encoding UTF8 |
   Select-Object -First 8
 ```
 
@@ -103,7 +116,34 @@ git pull
 Because `.codex\skills\development-discipline` is a junction, Codex will read the updated files after `git pull`.
 
 The same applies to `.codex\skills\solution-selection-guardrails`.
+The same applies to `.codex\skills\taste-skill`.
 Because `.codex\AGENTS.md` is a hardlink, it will also reflect committed edits to `AGENTS.md`.
+
+## Sync Automation
+
+This repository includes a guarded sync script:
+
+```powershell
+cd "$env:USERPROFILE\codex-personal-rules"
+.\scripts\sync-codex-personal-rules.ps1
+```
+
+Behavior:
+
+- exits without changing anything if the working tree is dirty
+- fetches `origin`
+- fast-forwards local `main` when the repo is only behind
+- pushes when the repo is only ahead
+- stops on divergence and asks for manual resolution
+
+To install a Windows Scheduled Task that runs at logon and every 15 minutes:
+
+```powershell
+cd "$env:USERPROFILE\codex-personal-rules"
+.\scripts\install-sync-task.ps1
+```
+
+The task runs the guarded sync script with `-NoProfile` and `-ExecutionPolicy Bypass`.
 
 ## Adding Another Global Skill
 
