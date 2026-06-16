@@ -25,6 +25,12 @@ files may add stricter repository rules, but they should not weaken these rules.
 - If example data is necessary, label it clearly as example or fake data.
 - Base analysis, decisions, statistics, displays, and demos on real data whenever possible, and state the data source or limitation.
 
+## Local Tool Fallbacks
+
+- For Feishu/Lark work on this machine, do not conclude "cannot access Feishu" only because no Feishu/Lark plugin or connector is visible in the current tool list.
+- First check whether local `lark-cli` plus the installed `lark-*` or related skills are available, and prefer those local capabilities when they cover the task.
+- Apply the same principle to other local CLIs and skills: if a task may be supported by machine-local tooling, verify that path before declaring the capability unavailable.
+
 ## Capability Category
 
 - Design AI-assisted systems by capability category, not by enumerating known scenarios.
